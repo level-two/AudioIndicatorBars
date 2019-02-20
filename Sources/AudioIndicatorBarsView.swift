@@ -62,7 +62,9 @@ open class AudioIndicatorBarsView: UIView {
         _ barCornerRadius: CGFloat = 0.0,
         _ color: UIColor = UIColor.black
         ) {
-        
+        self.barsCount = barsCount
+        self.barCornerRadius = barCornerRadius
+        self.color = color
         super.init(frame: rect)
 
         self.doDraw(rect, barsCount, barCornerRadius, color)
