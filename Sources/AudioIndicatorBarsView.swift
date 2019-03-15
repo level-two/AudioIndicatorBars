@@ -19,14 +19,18 @@ open class AudioIndicatorBarsView: UIView {
     fileprivate var barsSet: [BarView] = []
     
     fileprivate var barCornerRadius: CGFloat = 0
-    @IBInspectable var corner : CGFloat = 0 {
+    
+    @IBInspectable
+    public var corner : CGFloat = 0 {
         didSet {
             self.barCornerRadius = corner
         }
     }
     
     fileprivate var barsCount: Int = 4
-    @IBInspectable var bars : CGFloat = 4 {
+    
+    @IBInspectable
+    public var bars : CGFloat = 4 {
         didSet {
             self.barsCount = Int(bars)
         }
@@ -34,7 +38,9 @@ open class AudioIndicatorBarsView: UIView {
     
     
     fileprivate var barColor: UIColor = UIColor.black
-    @IBInspectable var color : UIColor = UIColor.black {
+    
+    @IBInspectable
+    public var color : UIColor = UIColor.black {
         didSet {
             self.barColor = color
         }
@@ -42,17 +48,12 @@ open class AudioIndicatorBarsView: UIView {
     
     // MARK: - Initializers
     required public init?(coder aDecoder: NSCoder) {
-        
         super.init(coder: aDecoder)
-        
     }
     
     public override init(frame: CGRect) {
-        
         super.init(frame: frame)
-        
         self.doDraw(frame, self.barsCount, CGFloat(self.barCornerRadius), self.color)
-        
     }
     
     // Custom initializers
@@ -68,16 +69,12 @@ open class AudioIndicatorBarsView: UIView {
         super.init(frame: rect)
 
         self.doDraw(rect, barsCount, barCornerRadius, color)
-        
     }
     
     // MARK: - Functions
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
-        
-        
         self.doDraw(rect, self.barsCount, CGFloat(self.barCornerRadius), self.color)
-        
     }
     
     // Do draw
@@ -89,9 +86,7 @@ open class AudioIndicatorBarsView: UIView {
         ) {
         
         let sectionsWidth = rect.width / CGFloat(self.barsCount)
-        
         for i in 0 ..< self.barsCount {
-            
             let x = sectionsWidth * CGFloat(i) + AudioIndicatorBarsView.barsOffset
             let width = sectionsWidth - AudioIndicatorBarsView.barsOffset * 2
             let y: CGFloat = rect.height - width
@@ -102,23 +97,17 @@ open class AudioIndicatorBarsView: UIView {
             self.barsSet.append(bar)
             
             self.addSubview(bar)
-            
         }
-        
     }
     
     // Start animations
     open func start() {
-        
         for bar in self.barsSet { bar.start() }
-        
     }
     
     // Stop animations
     open func stop() {
-        
         for bar in self.barsSet { bar.stop() }
-        
     }
     
     deinit {
