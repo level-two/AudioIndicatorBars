@@ -11,19 +11,18 @@ import UIKit
 
 class BarView: UIView {
     public init(
-        _ barFrame: CGRect,
+        _ frame: CGRect,
         _ cornerRadius: CGFloat = 0.0,
         _ color: UIColor = UIColor.black,
         _ minHeight: CGFloat = 0.0,
         _ maxHeight: CGFloat = 0.0
         ) {
         
-        self.barFrame = barFrame
         self.animationSpeed = Double.random(min: 0.5, max: 0.9)
         self.minHeight = minHeight
         self.maxHeight = maxHeight
         
-        super.init(frame: barFrame)
+        super.init(frame: frame)
         
         self.layer.cornerRadius = cornerRadius
         self.layer.masksToBounds = true
@@ -33,6 +32,7 @@ class BarView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
     
     public func startAnimation() {
         guard !self.isAnimating else { return }
@@ -47,8 +47,8 @@ class BarView: UIView {
     func performAnimation() {
         guard isAnimating else { return }
         
-        let maxFrame = CGRect(x: barFrame.minX, y: barFrame.maxY - maxHeight, width: barFrame.width, height: maxHeight)
-        let minFrame = CGRect(x: barFrame.minX, y: barFrame.maxY - minHeight, width: barFrame.width, height: minHeight)
+        let maxFrame = CGRect(x: frame.minX, y: frame.maxY - maxHeight, width: frame.width, height: maxHeight)
+        let minFrame = CGRect(x: frame.minX, y: frame.maxY - minHeight, width: frame.width, height: minHeight)
         
         UIView.animate(
             withDuration: animationSpeed,
@@ -65,7 +65,6 @@ class BarView: UIView {
         })
     }
     
-    fileprivate var barFrame: CGRect = .zero
     fileprivate var animationSpeed: Double = 1.0
     fileprivate var minHeight: CGFloat = 0.0
     fileprivate var maxHeight: CGFloat = 0.0
