@@ -49,7 +49,7 @@ class BarView: UIView {
         
         let maxFrame = CGRect(x: barFrame.minX, y: barFrame.maxY - maxHeight, width: barFrame.width, height: maxHeight)
         let minFrame = CGRect(x: barFrame.minX, y: barFrame.maxY - minHeight, width: barFrame.width, height: minHeight)
-        
+
         UIView.animate(
             withDuration: animationSpeed,
             animations: { self.frame = maxFrame },

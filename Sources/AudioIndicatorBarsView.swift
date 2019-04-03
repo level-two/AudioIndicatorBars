@@ -59,6 +59,10 @@ open class AudioIndicatorBarsView: UIView {
 }
 
 extension AudioIndicatorBarsView {
+    override open func draw(_ rect: CGRect) {
+        redrawBars()
+    }
+    
     func redrawBars() {
         barsSet.forEach { $0.removeFromSuperview() }
         barsSet.removeAll()
