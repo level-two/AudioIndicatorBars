@@ -54,8 +54,18 @@ open class AudioIndicatorBarsView: UIView {
         for bar in self.barsSet { bar.stopAnimation() }
     }
     
+    open func setTempo(_ tempo: Int) {
+        self.tempo = tempo
+        var rate = 0.25
+        for bar in self.barsSet {
+            bar.tempo = Double(tempo) * rate
+            rate += 0.125
+        }
+    }
+    
     fileprivate var barsSet = [BarView]()
     fileprivate var isAnimating = false
+    fileprivate var tempo = 120
 }
 
 extension AudioIndicatorBarsView {
@@ -69,17 +79,17 @@ extension AudioIndicatorBarsView {
         
         let sectionsWidth = bounds.width / CGFloat(barsCount)
         for i in 0 ..< barsCount {
-            let barFrame =
-                CGRect(x: sectionsWidth * CGFloat(i), y: 0, width: sectionsWidth, height: frame.height)
-                    .insetBy(dx: sectionsWidth*(1-relativeBarWidth)/2, dy: 0)
+            let barFrame = CGRect(x: sectionsWidth * CGFloat(i), y: 0, width: sectionsWidth, height: frame.height)
+                .insetBy(dx: sectionsWidth*(1-relativeBarWidth)/2, dy: 0)
             
             let bar = BarView(barFrame, barsCornerRadius, barsColor, frame.height*0.2, frame.height)
             self.barsSet.append(bar)
             self.addSubview(bar)
-            
-            if isAnimating {
-                bar.startAnimation()
-            }
+        }
+        
+        setTempo(tempo)
+        if isAnimating {
+            startAnimation()
         }
     }
 }

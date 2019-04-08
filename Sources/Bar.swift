@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 
 class BarView: UIView {
+    public var tempo: Double = 120.0 {
+        didSet {
+            animationSpeed = 60.0 / tempo
+        }
+    }
+    
     public init(
         _ barFrame: CGRect,
         _ cornerRadius: CGFloat = 0.0,
@@ -19,7 +25,6 @@ class BarView: UIView {
         ) {
         
         self.barFrame = barFrame
-        self.animationSpeed = Double.random(min: 0.5, max: 0.9)
         self.minHeight = minHeight
         self.maxHeight = maxHeight
         
@@ -34,6 +39,14 @@ class BarView: UIView {
         super.init(coder: aDecoder)
     }
     
+    fileprivate var barFrame: CGRect = .zero
+    fileprivate var animationSpeed: Double = 1.0
+    fileprivate var minHeight: CGFloat = 0.0
+    fileprivate var maxHeight: CGFloat = 0.0
+    fileprivate var isAnimating: Bool = false
+}
+
+extension BarView {
     public func startAnimation() {
         guard !self.isAnimating else { return }
         isAnimating = true
@@ -43,7 +56,10 @@ class BarView: UIView {
     public func stopAnimation() {
         isAnimating = false
     }
-    
+}
+
+
+extension BarView {
     func performAnimation() {
         guard isAnimating else { return }
         
@@ -51,12 +67,13 @@ class BarView: UIView {
         let minFrame = CGRect(x: barFrame.minX, y: barFrame.maxY - minHeight, width: barFrame.width, height: minHeight)
 
         UIView.animate(
-            withDuration: animationSpeed,
+            withDuration: animationSpeed * 0.2,
             animations: { self.frame = maxFrame },
             completion: { finished in
                 guard finished else { return }
                 UIView.animate(
-                    withDuration: self.animationSpeed,
+                    withDuration: self.animationSpeed * 0.6,
+                    delay: self.animationSpeed * 0.2,
                     animations: { self.frame = minFrame },
                     completion: { finished in
                         guard finished else { return }
@@ -64,10 +81,4 @@ class BarView: UIView {
                 })
         })
     }
-    
-    fileprivate var barFrame: CGRect = .zero
-    fileprivate var animationSpeed: Double = 1.0
-    fileprivate var minHeight: CGFloat = 0.0
-    fileprivate var maxHeight: CGFloat = 0.0
-    fileprivate var isAnimating: Bool = false
 }
