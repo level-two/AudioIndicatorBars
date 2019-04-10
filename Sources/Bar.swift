@@ -39,46 +39,38 @@ class BarView: UIView {
         super.init(coder: aDecoder)
     }
     
+    deinit {
+        animationTimer?.invalidate()
+    }
+    
     fileprivate var barFrame: CGRect = .zero
     fileprivate var animationSpeed: Double = 1.0
     fileprivate var minHeight: CGFloat = 0.0
     fileprivate var maxHeight: CGFloat = 0.0
-    fileprivate var isAnimating: Bool = false
+    fileprivate var animationTimer: Timer?
+    fileprivate var animationDir: Bool = false
 }
 
 extension BarView {
-    public func startAnimation() {
-        guard !self.isAnimating else { return }
-        isAnimating = true
-        performAnimation()
+    public func startBarsAnimation() {
+        guard animationTimer == nil else { return }
+        
+        animationTimer = Timer.scheduledTimer( timeInterval: animationSpeed/2, target: self, selector: #selector(BarView.performNextAnimationStep), userInfo: nil, repeats: true)
     }
     
-    public func stopAnimation() {
-        isAnimating = false
+    public func stopBarsAnimation() {
+        animationTimer?.invalidate()
+        animationTimer = nil
+        animationDir = false
     }
 }
 
-
 extension BarView {
-    func performAnimation() {
-        guard isAnimating else { return }
-        
+    @objc func performNextAnimationStep() {
         let maxFrame = CGRect(x: barFrame.minX, y: barFrame.maxY - maxHeight, width: barFrame.width, height: maxHeight)
         let minFrame = CGRect(x: barFrame.minX, y: barFrame.maxY - minHeight, width: barFrame.width, height: minHeight)
-
-        UIView.animate(
-            withDuration: animationSpeed * 0.2,
-            animations: { self.frame = maxFrame },
-            completion: { finished in
-                guard finished else { return }
-                UIView.animate(
-                    withDuration: self.animationSpeed * 0.6,
-                    delay: self.animationSpeed * 0.2,
-                    animations: { self.frame = minFrame },
-                    completion: { finished in
-                        guard finished else { return }
-                        self.performAnimation()
-                })
-        })
+        let targetFrame = animationDir ? maxFrame : minFrame
+        UIView.animate(withDuration: animationSpeed/2, animations: { self.frame = targetFrame })
+        animationDir = !animationDir
     }
 }
