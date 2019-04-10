@@ -52,13 +52,13 @@ class BarView: UIView {
 }
 
 extension BarView {
-    public func startBarsAnimation() {
+    public func startAnimation() {
         guard animationTimer == nil else { return }
         
         animationTimer = Timer.scheduledTimer( timeInterval: animationSpeed/2, target: self, selector: #selector(BarView.performNextAnimationStep), userInfo: nil, repeats: true)
     }
     
-    public func stopBarsAnimation() {
+    public func stopAnimation() {
         animationTimer?.invalidate()
         animationTimer = nil
         animationDir = false

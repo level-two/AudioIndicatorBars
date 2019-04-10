@@ -44,14 +44,14 @@ open class AudioIndicatorBarsView: UIView {
         super.init(frame: frame)
     }
     
-    open func startBarsAnimation() {
+    open func startAnimation() {
         isAnimating = true
-        for bar in self.barsSet { bar.startBarsAnimation() }
+        for bar in self.barsSet { bar.startAnimation() }
     }
     
-    open func stopBarsAnimation() {
+    open func stopAnimation() {
         isAnimating = false
-        for bar in self.barsSet { bar.stopBarsAnimation() }
+        for bar in self.barsSet { bar.stopAnimation() }
     }
     
     open func setTempo(_ tempo: Int) {
@@ -89,7 +89,7 @@ extension AudioIndicatorBarsView {
         
         setTempo(tempo)
         if isAnimating {
-            startBarsAnimation()
+            startAnimation()
         }
     }
 }
